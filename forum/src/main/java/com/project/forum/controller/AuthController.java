@@ -1,21 +1,22 @@
 package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
+import com.project.forum.dto.UserDto;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
 import com.project.forum.req.UserReq;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
+@RequiredArgsConstructor
 public class AuthController {
 
 
@@ -23,11 +24,11 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JWUtil jwUtil;
 
-    public  AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passWordEncoder = passwordEncoder;
-        this.jwUtil = jwtUtil;
-    }
+//    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
+//        this.userRepository = userRepository;
+//        this.passWordEncoder = passwordEncoder;
+//        this.jwUtil = jwtUtil;
+//    }
 
     @PostMapping("/register")
     public String createUser(@RequestBody UserReq userReq) {
@@ -48,5 +49,11 @@ public class AuthController {
     }
     
 
+    @GetMapping("/{userName}")
+    public ResponseEntity<?> getUser(@PathVariable String userName){
+        User user = new User();
+//        userRepository.findByUsername(userName);
+        return ResponseEntity.ok().body(userRepository.findByUsername(userName));
+    }
 
 }

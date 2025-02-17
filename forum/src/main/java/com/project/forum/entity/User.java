@@ -1,22 +1,19 @@
 package com.project.forum.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 
 @Data
-@Entity
-@Document(collection = "users")
+@Document(collection = "usersCollections")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     @NotNull(message = "Username (email) cannot be null")
     @NotEmpty(message = "Username (email) cannot be empty")
@@ -37,10 +34,11 @@ public class User {
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid (e.g., +1234567890 or 1234567890)")
     private String phone;
 
-    private List<Long> followers;
-    private List<Long> following;
+    private List<String> followers;
+    private List<String> following;
 
     @NotNull(message = "Roles cannot be null")
+    @Enumerated(EnumType.STRING)
     private Roles roles;
 
 }
