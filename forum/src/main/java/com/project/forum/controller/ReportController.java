@@ -30,7 +30,7 @@ public class ReportController {
 
     @GetMapping("/{userId}")
     public List<Report> getAllReportsofAUser(@PathVariable long userId) {
-        return reportRepository.findByUserId();
+        return reportRepository.findByUserId(userId);
     }
 
 

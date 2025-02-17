@@ -2,9 +2,9 @@ package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
 import com.project.forum.entity.User;
-import com.project.forum.repository.UserRepository;
+import com.project.forum.repository.UserRepo;
 import com.project.forum.req.UserReq;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,18 +16,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class AuthController {
 
 
     private final PasswordEncoder passWordEncoder;
-    private final UserRepository userRepository;
+    private final UserRepo userRepo;
     private final JWUtil jwUtil;
-
-    public  AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passWordEncoder = passwordEncoder;
-        this.jwUtil = jwtUtil;
-    }
+//
+//    public  AuthController(UserRepo userRepo, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
+//        this.userRepo = userRepo;
+//        this.passWordEncoder = passwordEncoder;
+//        this.jwUtil = jwtUtil;
+//    }
 
     @PostMapping("/register")
     public String createUser(@RequestBody UserReq userReq) {
@@ -39,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody UserReq user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+        Optional<User> existingUser = userRepo.findByUsername(user.getUsername());
         if(existingUser.isPresent() && passWordEncoder.matches(user.getPassword(), existingUser.get().getPassword())) {
             String token = jwUtil.generateToken(user.getUsername());
             return Map.of("token", token);
