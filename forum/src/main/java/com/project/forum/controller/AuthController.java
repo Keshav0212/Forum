@@ -36,7 +36,7 @@ public class AuthController {
         User user = new User();
         user.setUsername(userReq.getUsername());
         user.setPassword(passWordEncoder.encode(userReq.getPassword()));
-        user.setRoles(Roles.USER);
+        user.setRoles(Roles.User);
         userRepository.save(user);
         return "User has been registered successfully";
     }
