@@ -2,23 +2,19 @@ package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
 
-import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
+import com.project.forum.exceptions.UserServiceException;
 import com.project.forum.repository.UserRepository;
 
 import com.project.forum.request.LoginRequest;
 import com.project.forum.request.RegisterRequest;
-import com.project.forum.response.LoginResponse;
 import com.project.forum.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -39,8 +35,13 @@ public class AuthController {
 //    }
 
     @PostMapping("/register")
-    public String createUser(@RequestBody RegisterRequest registerRequest) {
-        return userService.registerUser(registerRequest);
+    public ResponseEntity<String> createUser(@RequestBody RegisterRequest registerRequest) {
+        try{
+            String response = userService.registerUser(registerRequest);
+            return ResponseEntity.ok(response);
+        } catch (UserServiceException message) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message.getMessage());
+        }
     }
 
     @PostMapping("/login")
