@@ -2,7 +2,6 @@ package com.project.forum.controller;
 
 import com.project.forum.entity.Report;
 import com.project.forum.repository.ReportRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

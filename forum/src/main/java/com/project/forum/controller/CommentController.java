@@ -24,5 +24,4 @@ public class CommentController {
     public List<Comment> getCommentsByReport(@PathVariable String reportId) {
         return commentRepository.findByReportId(reportId);
     }
-
 }

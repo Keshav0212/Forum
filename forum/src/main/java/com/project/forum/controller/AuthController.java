@@ -1,10 +1,11 @@
 package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
-import com.project.forum.dto.UserDto;
+
 import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
+
 import com.project.forum.request.LoginRequest;
 import com.project.forum.request.RegisterRequest;
 import com.project.forum.response.LoginResponse;
@@ -39,12 +40,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String createUser(@RequestBody RegisterRequest registerRequest) {
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setPassword(passWordEncoder.encode(registerRequest.getPassword()));
-        user.setRoles(Roles.User);
-        userRepository.save(user);
-        return "User has been registered successfully";
+        return userService.registerUser(registerRequest);
     }
 
     @PostMapping("/login")
