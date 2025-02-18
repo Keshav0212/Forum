@@ -28,11 +28,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public String userLogin(LoginRequest loginRequest) {
         Optional<User> existingUser = userRepository.findByUsername(loginRequest.getUsername());
-        if(existingUser.isPresent() && passWordEncoder.matches(loginRequest.getPassword(), existingUser.get().getPassword())){
+        if(existingUser.isPresent()){
+            if(!passWordEncoder.matches(loginRequest.getPassword(), existingUser.get().getPassword())) {
+                throw new UserServiceException("Invalid Password");
+            }
             log.info("inside [userLogin] {}",passWordEncoder.matches(loginRequest.getPassword(), existingUser.get().getPassword()));
             return "Login Successful";
         } else {
-            throw new UserServiceException("Invalid Credentials");
+            throw new UserServiceException("User Doesn't Exist!!");
         }
     }
 
