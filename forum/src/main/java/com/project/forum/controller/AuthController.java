@@ -2,6 +2,7 @@ package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
 import com.project.forum.dto.UserDto;
+import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
 import com.project.forum.req.UserReq;
@@ -35,6 +36,8 @@ public class AuthController {
         User user = new User();
         user.setUsername(userReq.getUsername());
         user.setPassword(passWordEncoder.encode(userReq.getPassword()));
+        user.setRoles(Roles.User);
+        userRepository.save(user);
         return "User has been registered successfully";
     }
 
