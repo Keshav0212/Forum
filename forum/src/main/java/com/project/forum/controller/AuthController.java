@@ -1,12 +1,13 @@
 package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
-import com.project.forum.dto.UserDto;
+
 import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
-import com.project.forum.req.UserReq;
+
 import com.project.forum.request.LoginRequest;
+import com.project.forum.request.RegisterRequest;
 import com.project.forum.response.LoginResponse;
 import com.project.forum.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,8 @@ public class AuthController {
 //    }
 
     @PostMapping("/register")
-    public String createUser(@RequestBody UserReq userReq) {
-        User user = new User();
-        user.setUsername(userReq.getUsername());
-        user.setPassword(passWordEncoder.encode(userReq.getPassword()));
-        user.setRoles(Roles.User);
-        userRepository.save(user);
-        return "User has been registered successfully";
+    public String createUser(@RequestBody RegisterRequest registerRequest) {
+        return userService.registerUser(registerRequest);
     }
 
     @PostMapping("/login")
