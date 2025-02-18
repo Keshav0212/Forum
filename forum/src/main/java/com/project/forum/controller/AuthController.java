@@ -5,6 +5,7 @@ import com.project.forum.dto.UserDto;
 import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
+import com.project.forum.req.UserLoginReq;
 import com.project.forum.req.UserReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody UserReq user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-        if(existingUser.isPresent() && passWordEncoder.matches(user.getPassword(), existingUser.get().getPassword())) {
-            String token = jwUtil.generateToken(user.getUsername());
-            return Map.of("token", token);
+    public String login(@RequestBody UserLoginReq userLoginReq) {
+        Optional<User> existingUser = userRepository.findByUsername(userLoginReq.getUsername());
+        if(existingUser.isPresent() && passWordEncoder.matches(userLoginReq.getPassword(), existingUser.get().getPassword())) {
+            return "login success";
         }
-        return Map.of("error", "Invalid credentials");
+        return "dumb fuck";
     }
     
 
