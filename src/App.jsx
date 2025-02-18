@@ -3,18 +3,20 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Login from './LoginSignup'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   
 
   return (
     <>
-      <div>
-        <Login />
-      </div>
-      <div>
-        <h1></h1>
-      </div>
+      <Router>
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
+      
     </>
   )
 }
