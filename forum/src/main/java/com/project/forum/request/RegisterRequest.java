@@ -1,11 +1,9 @@
-package com.project.forum.req;
+package com.project.forum.request;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
-public class UserReq {
+public class RegisterRequest {
     private String username;
     private String password;
     private String profileName;
