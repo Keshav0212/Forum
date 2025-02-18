@@ -1,31 +1,31 @@
 package com.project.forum.controller;
 
 import com.project.forum.config.JWUtil;
+import com.project.forum.dto.UserDto;
 import com.project.forum.entity.User;
-import com.project.forum.repository.UserRepo;
+import com.project.forum.repository.UserRepository;
 import com.project.forum.req.UserReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 @RequiredArgsConstructor
 public class AuthController {
 
 
     private final PasswordEncoder passWordEncoder;
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
     private final JWUtil jwUtil;
-//
-//    public  AuthController(UserRepo userRepo, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
-//        this.userRepo = userRepo;
+
+//    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JWUtil jwtUtil) {
+//        this.userRepository = userRepository;
 //        this.passWordEncoder = passwordEncoder;
 //        this.jwUtil = jwtUtil;
 //    }
@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody UserReq user) {
-        Optional<User> existingUser = userRepo.findByUsername(user.getUsername());
+        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
         if(existingUser.isPresent() && passWordEncoder.matches(user.getPassword(), existingUser.get().getPassword())) {
             String token = jwUtil.generateToken(user.getUsername());
             return Map.of("token", token);
@@ -49,5 +49,11 @@ public class AuthController {
     }
     
 
+    @GetMapping("/{userName}")
+    public ResponseEntity<?> getUser(@PathVariable String userName){
+        User user = new User();
+//        userRepository.findByUsername(userName);
+        return ResponseEntity.ok().body(userRepository.findByUsername(userName));
+    }
 
 }
