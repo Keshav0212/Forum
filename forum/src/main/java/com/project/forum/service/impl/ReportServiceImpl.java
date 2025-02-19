@@ -27,6 +27,7 @@ public class ReportServiceImpl implements ReportService {
         report.setImage(createReportRequest.getImage());
         report.setDescription(createReportRequest.getDescription());
         report.setLocation((createReportRequest.getLocation()));
+        report.setUsername((createReportRequest.getUsername()));
         reportRepository.save(report);
         return "Report Created Successfully";
     }
@@ -46,6 +47,7 @@ public class ReportServiceImpl implements ReportService {
         report.setImage(createReportRequest.getImage());
         report.setDescription(createReportRequest.getDescription());
         report.setLocation((createReportRequest.getLocation()));
+        report.setUsername((createReportRequest.getUsername()));
         reportRepository.save(report);
         return "edited the report";
     }

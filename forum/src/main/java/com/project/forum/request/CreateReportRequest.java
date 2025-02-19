@@ -10,4 +10,5 @@ public class CreateReportRequest {
     private String location;
     private String image;
     private String userId;
+    private String username;
 }

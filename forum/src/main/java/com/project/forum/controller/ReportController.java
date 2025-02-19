@@ -18,7 +18,8 @@ public class ReportController {
     private final ReportRepository reportRepository;
 
 
-    @GetMapping Report getReport(@PathVariable String username, String title){
+    @GetMapping("/{username}/{title}")
+    Report getReport(@PathVariable String username, String title){
         return reportService.getReport(username, title);
     }
 
@@ -28,7 +29,7 @@ public class ReportController {
         return "Report Created Successfully";
     }
 
-    @DeleteMapping("/deletereport")
+    @DeleteMapping("/deletereport/{username}/{title}")
     public String deleteReport(@PathVariable String username, String title){
         return reportService.deleteReport(username, title);
     }
@@ -37,6 +38,4 @@ public class ReportController {
     public String editReport(@RequestBody CreateReportRequest createReportRequest){
         return reportService.editReport(createReportRequest);
     }
-
-
 }
