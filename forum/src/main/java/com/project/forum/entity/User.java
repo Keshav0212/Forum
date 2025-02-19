@@ -17,7 +17,7 @@ public class User {
 
     @NotNull(message = "Username (email) cannot be null")
     @NotEmpty(message = "Username (email) cannot be empty")
-    @Email(message = "Username must be a valid email address")
+//    @Email(message = "Username must be a valid email address")
     private String username;
 
     @NotNull(message = "Profile name cannot be null")

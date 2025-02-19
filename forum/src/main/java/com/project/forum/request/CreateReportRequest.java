@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateReportRequest {
-    private long id;
+    private String id;
     private String title;
     private String description;
     private String location;

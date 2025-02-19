@@ -1,23 +1,29 @@
 package com.project.forum.service.impl;
 
 import com.project.forum.entity.Report;
-import com.project.forum.repository.CommentRepository;
 import com.project.forum.repository.ReportRepository;
 import com.project.forum.request.CreateReportRequest;
 import com.project.forum.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
 
     @Override
-    public Report getReport(String username, String title) {
-        Report report = reportRepository.findByUsernameAndTitle(username, title);
-        return report;
+    public ResponseEntity<Report> getReport(String username, String title) {
+        Report report = reportRepository.findByUsernameAndTitle(username, title).get();
+        log.info("[getReport Service was called], report {} :", report);
+        return ResponseEntity.ok(report);
     }
+
 
     @Override
     public String createReport(CreateReportRequest createReportRequest) {
@@ -34,9 +40,13 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public String deleteReport(String username, String title) {
-        Report report = reportRepository.findByUsernameAndTitle(username, title);
-        reportRepository.delete(report);
-        return "Deleted the report";
+        Optional<Report> reportOptional = reportRepository.findByUsernameAndTitle(username, title);
+        if (reportOptional.isPresent()) {
+            reportRepository.delete(reportOptional.get());
+            return "Deleted the report";
+        } else {
+            return "Report not found";
+        }
     }
 
     @Override

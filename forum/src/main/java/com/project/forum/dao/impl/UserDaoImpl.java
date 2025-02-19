@@ -5,12 +5,14 @@ import com.project.forum.entity.Roles;
 import com.project.forum.entity.User;
 import com.project.forum.repository.UserRepository;
 import com.project.forum.request.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Valid
 public class UserDaoImpl implements UserDao {
 
     private final UserRepository userRepository;

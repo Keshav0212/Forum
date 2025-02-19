@@ -9,6 +9,7 @@ import com.project.forum.repository.UserRepository;
 import com.project.forum.request.LoginRequest;
 import com.project.forum.request.RegisterRequest;
 import com.project.forum.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("users")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
 
@@ -35,7 +37,7 @@ public class AuthController {
 //    }
 
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody RegisterRequest registerRequest) {
         try{
             String response = userService.registerUser(registerRequest);
             return ResponseEntity.ok(response);
@@ -45,9 +47,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
         log.info("inside [LoginRequest] {}",loginRequest);
-        return userService.userLogin(loginRequest);
+        try{
+            String response = userService.userLogin(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (UserServiceException message) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message.getMessage());
+        }
     }
 
     @GetMapping("/{userName}")
