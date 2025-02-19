@@ -30,6 +30,7 @@ public class User {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
+
     @NotEmpty(message = "Phone number should not be empty")
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid (e.g., +1234567890 or 1234567890)")
     private String phone;

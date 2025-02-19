@@ -9,8 +9,8 @@ import javax.persistence.Id;
 @Document(collection = "comments")
 public class Comment {
     @Id
-    private long id;
-    private long reportId;
+    private String id;
+    private String reportId;
     private String userId;
     private String text;
 }

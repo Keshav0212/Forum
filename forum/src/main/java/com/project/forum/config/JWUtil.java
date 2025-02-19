@@ -10,10 +10,9 @@ import java.util.Date;
 @Component
 public class JWUtil {
 
-    private String secretKey = "your_secret_key"; // Secret key used for signing the JWT
+    private static String secretKey = "yourSecretKeyyourSecretKeyyourSecretKeyyourSecretKey"; // Secret key used for signing the JWT
 
-    // Generate a token for a given username
-    public String generateToken(String username) {
+    public static String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username) // Set the username as the subject claim
                 .setIssuedAt(new Date()) // Set the current timestamp as issued time
