@@ -17,7 +17,7 @@ public class User {
 
     @NotNull(message = "Username (email) cannot be null")
     @NotEmpty(message = "Username (email) cannot be empty")
-    @Email(message = "Username must be a valid email address")
+//    @Email(message = "Username must be a valid email address")
     private String username;
 
     @NotNull(message = "Profile name cannot be null")
@@ -29,6 +29,7 @@ public class User {
     @NotEmpty(message = "Password cannot be empty")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
+
 
     @NotEmpty(message = "Phone number should not be empty")
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid (e.g., +1234567890 or 1234567890)")
