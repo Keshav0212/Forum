@@ -68,7 +68,7 @@ public class AuthController {
 //            return ResponseEntity.badRequest().body(apiResponse);        }
     }
     public static String sendTokenToFrontend(String token){
-        return token
+        return token;
     }
 
     @GetMapping("/{userName}")
