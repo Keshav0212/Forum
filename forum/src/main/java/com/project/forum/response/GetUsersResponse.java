@@ -21,6 +21,7 @@ public class GetUsersResponse {
         this.following_Count = user.getFollowing() != null ? user.getFollowing().size() : 0; // Prevent NullPointerException
     }
 
+    @JsonIgnore
     public String getPassword () {
         return user.getPassword();
     }

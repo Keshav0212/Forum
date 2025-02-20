@@ -28,12 +28,13 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JWUtil jwUtil;
     private final UserService userService;
+    private static String token;
 
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> createUser(@Valid @RequestBody RegisterRequest registerRequest) {
         ApiResponse apiResponse = new ApiResponse();
-        try{
+//        try{
             String response = userService.registerUser(registerRequest);
             apiResponse.setStatusCode(HttpStatus.ACCEPTED);
             apiResponse.setMessage(response);
@@ -41,32 +42,39 @@ public class AuthController {
             apiResponse.setData(null);
             apiResponse.setService("User Registration:"+ HttpStatus.OK.value());
             return ResponseEntity.ok(apiResponse);
-        } catch (UserServiceException message) {
-            apiResponse.setMessage(message.getMessage());
-            return ResponseEntity.badRequest().body(apiResponse);
-        }
+//        } catch (UserServiceException message) {
+//            apiResponse.setMessage(message.getMessage());
+//            return ResponseEntity.badRequest().body(apiResponse);
+//        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         log.info("inside [LoginRequest] {}",loginRequest);
         ApiResponse apiResponse = new ApiResponse();
-        try{
+//        try{
             String response = userService.userLogin(loginRequest);
+
+            String token = jwUtil.generateToken(loginRequest.getUsername());
+
+            AuthController.setToken(token);
             apiResponse.setStatusCode(HttpStatus.ACCEPTED);
             apiResponse.setMessage(response);
             apiResponse.setSuccess(true);
             apiResponse.setData(null);
             apiResponse.setService("User Login:"+ HttpStatus.OK.value());
             return ResponseEntity.ok(apiResponse);
-        } catch (UserServiceException message) {
-            apiResponse.setMessage(message.getMessage());
-            return ResponseEntity.badRequest().body(apiResponse);        }
+//        } catch (UserServiceException message) {
+//            apiResponse.setMessage(message.getMessage());
+//            return ResponseEntity.badRequest().body(apiResponse);        }
     }
 
     @GetMapping("/{userName}")
     public GetUsersResponse getUser(@PathVariable String userName) {
-            return userService.findByUsername(userName);
+        return userService.findByUsername(userName);
     }
 
+    private static void setToken(String tok){
+        token = tok;
+    }
 }
