@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate } from "react-router-dom";
 import user_icon from "./assets/profile_name.png";
 import phone_icon from "./assets/phone.svg";
 import email_icon from "./assets/user_name.svg";
@@ -8,37 +8,64 @@ import "./LoginSignup.css";
 
 function Login() {
   const [action, setAction] = useState("Sign Up");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
+  // State for form inputs
+  const [formData, setFormData] = useState({
+    profileName: "",
+    mobileNumber: "",
+    username: "",
+    password: "",
+  });
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
   const handleSubmit = () => {
-    const formData = {
-      username: "user", // Replace with actual form values
-      password: "password",
-    };
-
-    // Determine the URL based on the action (Login or Sign Up)
+    const { username, password, profileName, mobileNumber } = formData;
+  
+    const requestData =
+      action === "Login"
+        ? { username, password }
+        : { profileName, mobileNumber, username, password };
+  
     const url =
       action === "Login"
         ? "http://localhost:8080/users/login"
-        : "http://localhost:8080/users/register"; // URL for Sign Up
-
-    // Make the request to your backend
+        : "http://localhost:8080/users/register";
+  
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(requestData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        // Check response status
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // Handle both JSON and plain text responses
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json();
+        } else {
+          return response.text();
+        }
+      })
       .then((data) => {
-        console.log(data); // Handle server response
-        navigate("/home"); // Navigate after successful response
+        console.log("Response:", data);
+        navigate("/home"); // Navigate on success
       })
       .catch((error) => {
-        console.error("Error:", error); // Handle error
+        console.error("Error:", error);
       });
   };
+  
 
   return (
     <div className="container">
@@ -52,23 +79,48 @@ function Login() {
           <div className="extra-inputs">
             <div className="input">
               <img src={user_icon} alt="" />
-              <input type="text" placeholder="Enter Profile Name" />
+              <input
+                type="text"
+                name="profileName"
+                placeholder="Enter Profile Name"
+                value={formData.profileName}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="input">
               <img src={phone_icon} alt="" />
-              <input type="text" placeholder="Enter Mobile Number" />
+              <input
+                type="text"
+                name="mobileNumber"
+                placeholder="Enter Mobile Number"
+                value={formData.mobileNumber}
+                onChange={handleChange}
+              />
             </div>
           </div>
         )}
 
         <div className="input">
           <img src={email_icon} alt="" />
-          <input type="email" placeholder="Enter User Name" />
+          <input
+            type="email"
+            name="username"
+            placeholder="Enter User Name"
+            value={formData.username}
+            onChange={handleChange}
+          />
         </div>
+
         <div className="input">
           <img src={password_icon} alt="" />
-          <input type="password" placeholder="Enter Password" />
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
         </div>
       </div>
 
