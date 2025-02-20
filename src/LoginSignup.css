@@ -1,0 +1,143 @@
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 100px;
+    width: 700px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.text {
+    color: #3c009d;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.underline {
+    width: 50px;
+    height: 4px;
+    background: #3c009d;
+    border-radius: 9px;
+}
+
+/* Inputs */
+.inputs {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 80%; /* Reduced width */
+    max-width: 500px; /* Prevent input from becoming too wide */
+    height: 50px;
+    background: #eaeaea;
+    border-radius: 6px;
+    padding: 5px 15px;
+}
+
+.extra-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.input input {
+    flex: 1;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Forgot Password */
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    color: #797979;
+    font-size: 14px;
+}
+
+.forgot-password span {
+    color: #4c00b4;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Submit and Toggle Buttons */
+.submit-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.submit, .toggle-button {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.submit {
+    background: #4c00b4;
+    color: #fff;
+}
+
+.toggle-button {
+    background: #eaeaea;
+    color: #333;
+    margin-left: 10px;
+}
+
+/* Hover Effects */
+.submit:hover {
+    background: #3a0080;
+}
+
+.toggle-button:hover {
+    background: #d6d6d6;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
+
+    .input {
+        width: 90%; /* Adjust input width for mobile */
+    }
+
+    .submit-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
