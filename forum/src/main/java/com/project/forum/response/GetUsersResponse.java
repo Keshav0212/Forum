@@ -1,21 +1,27 @@
 package com.project.forum.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.forum.entity.User;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class GetUsersResponse {
-    User user = new User();
+
+    @JsonIgnore  // This prevents "user" from appearing in the JSON response
+    private User user = new User();
+
     private String username;
     private String profileName;
     private String phone;
-    private int followers_Count = user.getFollowers() != null ? user.getFollowers().size() : 0;// Prevent NullPointerException
-    private int following_Count = user.getFollowing() != null ? user.getFollowing().size() : 0;// Prevent NullPointerException
+    private int followers_Count;
+    private int following_Count;
+
+    public GetUsersResponse() {
+        this.followers_Count = user.getFollowers() != null ? user.getFollowers().size() : 0; // Prevent NullPointerException
+        this.following_Count = user.getFollowing() != null ? user.getFollowing().size() : 0; // Prevent NullPointerException
+    }
 
     public String getPassword () {
         return user.getPassword();
     }
-
 }
