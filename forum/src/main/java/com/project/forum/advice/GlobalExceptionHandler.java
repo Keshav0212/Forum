@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         apiResponse.setService("APPUSER-" + HttpStatus.BAD_REQUEST.value());
         log.info("jaggu's code");
 
-        return ResponseEntity.ok().body(apiResponse);
+        return ResponseEntity.badRequest().body(apiResponse);
 
     }
 

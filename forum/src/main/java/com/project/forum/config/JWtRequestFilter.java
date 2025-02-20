@@ -1,6 +1,8 @@
 package com.project.forum.config;
 
 
+import com.project.forum.response.GetUsersResponse;
+import com.project.forum.service.impl.UserServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -11,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class JWtRequestFilter extends OncePerRequestFilter {
 
     private final JWUtil jwUtil;
-    private final UserDetailsService userDetailsService;
+    private final UserServiceImpl userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -44,11 +44,11 @@ public class JWtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            GetUsersResponse getUsersResponse = userService.findByUsername(username);
 
-            if (jwUtil.validateToken(jwt, userDetails.getUsername())) {
+            if (jwUtil.validateToken(jwt, getUsersResponse.getUsername())) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                        getUsersResponse, null);
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
