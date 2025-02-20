@@ -36,7 +36,7 @@ public class ReportController {
     }
 
     @DeleteMapping("/deletereport/{username}/{title}")
-    public String deleteReport(@PathVariable String username, String title){
+    public String deleteReport(@PathVariable String username, @PathVariable String title) {
         return reportService.deleteReport(username, title);
     }
 

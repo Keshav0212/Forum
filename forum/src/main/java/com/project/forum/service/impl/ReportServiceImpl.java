@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -38,9 +40,13 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public String deleteReport(String username, String title) {
-        Report report = reportRepository.findByUsernameAndTitle(username, title).get();
-        reportRepository.delete(report);
-        return "Deleted the report";
+        Optional<Report> reportOptional = reportRepository.findByUsernameAndTitle(username, title);
+        if (reportOptional.isPresent()) {
+            reportRepository.delete(reportOptional.get());
+            return "Deleted the report";
+        } else {
+            return "Report not found";
+        }
     }
 
     @Override
